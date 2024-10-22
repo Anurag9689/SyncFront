@@ -18,7 +18,7 @@ function ForgotPassword() {
                 <button type="submit" className="btn btn-primary btn-block">Send Password Reset Link</button>
               </form>
               <div className="text-center mt-3">
-                <a href="/index">Back to Login</a>
+                <a href="/login">Back to Login</a>
               </div>
             </div>
           </div>
