@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header.jsx';
 import ParticleBox from './ParticleBox.jsx';
+import { CustomAlert, alertbox } from './CustomAlert.jsx';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -30,19 +31,19 @@ function Login() {
         body: body,
       });
 
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
-        
         // Store the token in session storage
         sessionStorage.setItem('token', data.token);
         
         // Redirect to the dashboard
         navigate('/dashboard');
       } else {
-        console.error('Login failed:', response.statusText);
+        alertbox('Login failed : ' + data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
+      alertbox('Error : ' + 'website error, please contact the developer.')
+      console.error('Error : ', error);
     }
   };
 
@@ -50,6 +51,7 @@ function Login() {
     <div className="w-full min-h-screen overflow-hidden flex flex-col">
       <Header />
       <ParticleBox />
+      <CustomAlert />
 
       <div className="flex-grow flex justify-self-center self-center justify-center items-center w-full h-full">
         <div className="w-96 h-fit z-10 p-10 text-white bg-gray-500 backdrop-filter backdrop-fil backdrop-fil-color rounded-lg">

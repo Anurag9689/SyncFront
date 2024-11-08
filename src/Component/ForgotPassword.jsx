@@ -43,6 +43,9 @@ function ForgotPassword() {
     // Prepare the POST request body
     const serverIP = localStorage.getItem('serverIP');
     const serverPort = localStorage.getItem('serverPort');
+    if (!formData.question){
+      formData.question = questions[0];
+    }
     const raw = JSON.stringify({
       email: formData.email,
       question: formData.question,
@@ -64,7 +67,7 @@ function ForgotPassword() {
       const response = await fetch(`http://${serverIP}:${serverPort}/forgot_password`, requestOptions);
       const result = await response.json();
 
-      if (result.success) {
+      if (response.ok) {
         // Navigate to login screen on successful password reset
         navigate('/login');
       } else {
