@@ -7,7 +7,9 @@
     margin: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
     width: 100%;
     height: 100%;
 }
@@ -20,6 +22,132 @@ html, body, #root {
 
 
 .backdrop-fil-color {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(2px);
-}  
+}
+
+
+#tsparticles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    /* Ensures it sits behind other elements */
+}
+
+.darksoul-alert-js {
+    width: 0;
+    height: 0;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px rgb(0, 0, 0);
+    text-decoration: none;
+    display: none;
+    margin: auto;
+    z-index: 10;
+}
+
+.darksoul-alert-content {
+    margin: auto;
+    margin-left: 20px;
+    display: flex;
+}
+
+.show-alert {
+    position: absolute;
+    margin-left: auto;
+    left: 0;
+    margin-right: auto;
+    right: 0;
+    animation-name: animate;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    width: 90%;
+    height: 60px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px rgb(0, 0, 0);
+    text-decoration: none;
+    display: flex;
+    margin: auto;
+}
+
+.alert-close-btn {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+    background-size: contain;
+    background-image: url("assets/Alert-Close-Btn.png");
+    filter: invert();
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.alert-close-btn:hover {
+    transform: scale(1.1);
+    transition: all 0.5s;
+}
+
+/* Js - Alert Box - End */
+
+.bg-color {
+    background-color: rgba(0, 0, 0, 0.288);
+}
+
+.t-color {
+    color: rgb(255, 255, 255);
+    ;
+}
+
+.darksoul-btn {
+    all: unset;
+    margin: auto;
+    background-color: rgba(147, 220, 147, 0.592);
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.darksoul-btn:hover {
+    transition: all 0.2s;
+    background-color: rgba(147, 220, 147, 0.814);
+}
+
+@keyframes animate {
+    0% {
+        top: 0;
+    }
+
+    100% {
+        top: 70px;
+    }
+}
+
+
+
+/* CSS styling */
+.floating-form {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1000;
+  }
+  
+  ul {
+    list-style-type: none;
+  }
+  
+  li {
+    margin: 10px 0;
+  }

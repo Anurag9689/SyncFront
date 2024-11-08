@@ -1,22 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import Home from './Component/Home.jsx';
 import Login from './Component/Login.jsx';
 import Register from './Component/Register.jsx';
+import Verify from './Component/Verify.jsx';
 import ForgotPassword from './Component/ForgotPassword.jsx';
-import EnterEmail from './Component/EnterEmail.jsx';
-import ResetPassword from './Component/ResetPassword.jsx';
+import ServerConfig from './Component/ServerConfig.jsx';
+import Dashboard from './Component/Dashboard.jsx';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/server-config" element={<ServerConfig />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/enter-email" element={<EnterEmail />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

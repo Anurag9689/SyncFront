@@ -1,310 +1,114 @@
-import React from 'react';
-
-import * as THREE from 'three';
-
-// import Stats from 'three/addons/libs/stats.module.js';
-// import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-// import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-
-
-
-function ParticleBox()
-{
-    let group;
-    let container, stats;
-    const particlesData = [];
-    let camera, scene, renderer;
-    let positions, colors;
-    let particles;
-    let pointCloud;
-    let particlePositions;
-    let linesMesh;
-
-    const maxParticleCount = 1000;
-    let particleCount = 500;
-    const r = 800;
-    const rHalf = r / 2;
-
-    const effectController = {
-        showBox: false,
-        showDots: true,
-        showLines: true,
-        minDistance: 150,
-        limitConnections: false,
-        maxConnections: 20,
-        particleCount: 300
-    };
-
-    function initGUI() {
-
-        const gui = new GUI();
-
-        gui.add( effectController, 'showDots' ).onChange( function ( value ) {
-
-            pointCloud.visible = value;
-
-        } );
-        gui.add( effectController, 'showLines' ).onChange( function ( value ) {
-
-            linesMesh.visible = value;
-
-        } );
-        gui.add( effectController, 'minDistance', 10, 300, 1 );
-        gui.add( effectController, 'limitConnections' );
-        gui.add( effectController, 'maxConnections', 0, 30, 1 );
-        gui.add( effectController, 'particleCount', 0, maxParticleCount, 1 ).onChange( function ( value ) {
-
-            particleCount = value;
-            particles.setDrawRange( 0, particleCount );
-
-        } );
-
-    }
-
-    function init() {
-
-        // initGUI();
-
-        container = document.getElementById( 'pcontainer' );
-
-        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 4000 );
-        camera.position.z = 500;
-
-
-        // const controls = new OrbitControls( camera, container );
-        // controls.minDistance = 1000;
-        // controls.maxDistance = 3000;
-
-        scene = new THREE.Scene();
-
-
-        group = new THREE.Group();
-        scene.add( group );
-
-        const helper = new THREE.BoxHelper( new THREE.Mesh( new THREE.BoxGeometry( r, r, r ) ) );
-        helper.material.color.setHex( 0x474747 );
-        helper.material.blending = THREE.AdditiveBlending;
-        helper.material.transparent = true;
-        if (effectController.showBox){
-            group.add( helper );
-        }
-
-        const segments = maxParticleCount * maxParticleCount;
-        console.log("segments: ", segments);
-
-        positions = new Float32Array( segments * 3 );
-        colors = new Float32Array( segments * 3 );
-
-        const pMaterial = new THREE.PointsMaterial( {
-            color: 0xFFFFFF,
-            size: 3,
-            blending: THREE.AdditiveBlending,
-            transparent: true,
-            sizeAttenuation: false
-        } );
-
-        particles = new THREE.BufferGeometry();
-        particlePositions = new Float32Array( maxParticleCount * 3 );
-        console.log("particlePositions: ", particlePositions);
-
-        for ( let i = 0; i < maxParticleCount; i ++ ) {
-
-            const x = Math.random() * r - r / 2;
-            const y = Math.random() * r - r / 2;
-            const z = Math.random() * r - r / 2;
-
-            particlePositions[ i * 3 ] = x;
-            particlePositions[ i * 3 + 1 ] = y;
-            particlePositions[ i * 3 + 2 ] = z;
-
-            // add it to the geometry
-            particlesData.push( {
-                velocity: new THREE.Vector3( -1+ Math.random() * 2 , - 1 + Math.random() * 2 , -1 + Math.random() * 2),
-                numConnections: 0
-            } );
-
-        }
-
-        particles.setDrawRange( 0, particleCount );
-        particles.setAttribute( 'position', new THREE.BufferAttribute( particlePositions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-
-        // create the particle system
-        pointCloud = new THREE.Points( particles, pMaterial );
-        group.add( pointCloud );
-
-        const geometry = new THREE.BufferGeometry();
-
-        geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-        geometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-
-        geometry.computeBoundingSphere();
-
-        geometry.setDrawRange( 0, 0 );
-
-        const material = new THREE.LineBasicMaterial( {
-            vertexColors: true,
-            blending: THREE.AdditiveBlending,
-            transparent: true
-        } );
-
-        linesMesh = new THREE.LineSegments( geometry, material );
-        group.add( linesMesh );
-
-        //
-
-        renderer = new THREE.WebGLRenderer( { antialias: true } );
-        renderer.setPixelRatio( window.devicePixelRatio );
-        renderer.setSize( window.innerWidth, window.innerHeight );
-
-        container.appendChild( renderer.domElement );
-
-        //
-
-        // stats = new Stats();
-        // container.appendChild( stats.dom );
-
-        window.addEventListener( 'resize', onWindowResize );
-
-    }
-
-    function onWindowResize() {
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize( window.innerWidth, window.innerHeight );
-
-    }
-
-    function animate() {
-
-        let vertexpos = 0;
-        let colorpos = 0;
-        let numConnected = 0;
-
-        for ( let i = 0; i < particleCount; i ++ )
-            particlesData[ i ].numConnections = 0;
-
-        for ( let i = 0; i < particleCount; i ++ ) {
-
-            // get the particle
-            const particleData = particlesData[ i ];
-
-            particlePositions[ i * 3 ] += particleData.velocity.x;
-            particlePositions[ i * 3 + 1 ] += particleData.velocity.y;
-            particlePositions[ i * 3 + 2 ] += particleData.velocity.z;
-
-            if ( particlePositions[ i * 3 + 1 ] < - rHalf || particlePositions[ i * 3 + 1 ] > rHalf )
-                particleData.velocity.y = - particleData.velocity.y;
-
-            if ( particlePositions[ i * 3 ] < - rHalf || particlePositions[ i * 3 ] > rHalf )
-                particleData.velocity.x = - particleData.velocity.x;
-
-            if ( particlePositions[ i * 3 + 2 ] < - rHalf || particlePositions[ i * 3 + 2 ] > rHalf )
-                particleData.velocity.z = - particleData.velocity.z;
-
-            if ( effectController.limitConnections && particleData.numConnections >= effectController.maxConnections )
-                continue;
-
-            // Check collision
-            for ( let j = i + 1; j < particleCount; j ++ ) {
-
-                const particleDataB = particlesData[ j ];
-                if ( effectController.limitConnections && particleDataB.numConnections >= effectController.maxConnections )
-                    continue;
-
-                const dx = particlePositions[ i * 3 ] - particlePositions[ j * 3 ];
-                const dy = particlePositions[ i * 3 + 1 ] - particlePositions[ j * 3 + 1 ];
-                const dz = particlePositions[ i * 3 + 2 ] - particlePositions[ j * 3 + 2 ];
-                const dist = Math.sqrt( dx * dx + dy * dy + dz * dz );
-
-                if ( dist < effectController.minDistance ) {
-
-                    particleData.numConnections ++;
-                    particleDataB.numConnections ++;
-
-                    const alpha = 1.0 - dist / effectController.minDistance;
-
-                    positions[ vertexpos ++ ] = particlePositions[ i * 3 ];
-                    positions[ vertexpos ++ ] = particlePositions[ i * 3 + 1 ];
-                    positions[ vertexpos ++ ] = particlePositions[ i * 3 + 2 ];
-
-                    positions[ vertexpos ++ ] = particlePositions[ j * 3 ];
-                    positions[ vertexpos ++ ] = particlePositions[ j * 3 + 1 ];
-                    positions[ vertexpos ++ ] = particlePositions[ j * 3 + 2 ];
-
-                    colors[ colorpos ++ ] = alpha;
-                    colors[ colorpos ++ ] = alpha;
-                    colors[ colorpos ++ ] = alpha;
-
-                    colors[ colorpos ++ ] = alpha;
-                    colors[ colorpos ++ ] = alpha;
-                    colors[ colorpos ++ ] = alpha;
-
-                    numConnected ++;
-
-                }
-
-            }
-
-        }
-
-
-        linesMesh.geometry.setDrawRange( 0, numConnected * 2 );
-        linesMesh.geometry.attributes.position.needsUpdate = true;
-        linesMesh.geometry.attributes.color.needsUpdate = true;
-
-        pointCloud.geometry.attributes.position.needsUpdate = true;
-
-        requestAnimationFrame( animate );
-
-        // stats.update();
-        render();
-
-    }
-
-    const randomInt = (min, max) => {
-        return Math.round(Math.random()*(max-min)) + min;
-    };
-
-    function render() {
-
-        const time = Date.now() * 0.001;
-        group.rotation.y = time*0.1;
-
-
-        container.onmousemove = (event) => {
-            console.log("event: ", event);
-            if (event.offsetX % 2 === 0 && event.offsetY % 2 === 0){
-                effectController.minDistance = randomInt(10, 100);
-                effectController.maxConnections = randomInt(1, 3);
-                particleCount = randomInt(1, maxParticleCount);
-                particles.setDrawRange(0, particleCount);
-            }
-        }
-        // effectController.minDistance
-        // effectController.maxConnections
-        // gui.add( effectController, 'minDistance', 10, 300, 1 );
-        // gui.add( effectController, 'limitConnections' );
-        // gui.add( effectController, 'maxConnections', 0, 30, 1 );
-        // gui.add( effectController, 'particleCount', 0, maxParticleCount, 1 ).onChange( function ( value ) {
-        //     particleCount = value;
-        //     particles.setDrawRange( 0, particleCount );
-        // } );
-
-
-        renderer.render( scene, camera );
-
-    }
-
-    function runAtDelay(){
-        let container = document.getElementById('pcontainer');
-        if (container.children.length === 0){
-            init();
-            animate();
-        }
-    }
-    setTimeout(runAtDelay, 500);
-}
-
-export default ParticleBox;
+import { useEffect, useMemo, useState } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+// import { loadAll } from "@tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
+// import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
+import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+// import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
+
+const particleBox = () => {
+  const [init, setInit] = useState(false);
+
+  // this should be run only once per application lifetime
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      //await loadAll(engine);
+      //await loadFull(engine);
+      await loadSlim(engine);
+      //await loadBasic(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  const particlesLoaded = (container) => {
+    console.log(container);
+  };
+
+  const options = useMemo(
+    () => ({
+      background: {
+        color: {
+          value: "#1E3A8A",//"#0d47a1", 
+        },
+      },
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          onClick: {
+            enable: true,
+            mode: "push",
+          },
+          onHover: {
+            enable: true,
+            mode: "repulse",
+          },
+        },
+        modes: {
+          push: {
+            quantity: 1,
+          },
+          repulse: {
+            distance: 200,
+            duration: 0.4,
+          },
+        },
+      },
+      particles: {
+        color: {
+          value: "#ffffff",
+        },
+        links: {
+          color: "#ffffff",
+          distance: 150,
+          enable: true,
+          opacity: 0.5,
+          width: 1,
+        },
+        move: {
+          direction: "none",
+          enable: true,
+          outModes: {
+            default: "bounce",
+          },
+          random: false,
+          speed: 6,
+          straight: false,
+        },
+        number: {
+          density: {
+            enable: true,
+          },
+          value: 200,
+        },
+        opacity: {
+          value: 0.5,
+        },
+        shape: {
+          type: "circle",
+        },
+        size: {
+          value: { min: 1, max: 5 },
+        },
+      },
+      detectRetina: true,
+    }),
+    [],
+  );
+
+  if (init) {
+    return (
+      <Particles
+        id="tsparticles"
+        particlesLoaded={particlesLoaded}
+        options={options}
+      />
+    );
+  }
+
+  return <></>;
+};
+
+export default particleBox;
