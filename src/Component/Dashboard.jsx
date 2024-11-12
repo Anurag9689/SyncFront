@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import FloatingForm from "./FloatingForm"; // import custom floating form component
+import { FloatingForm } from "./FloatingForm"; // import custom floating form component
 
 
 function Dashboard() {
     const [data, setData] = useState(null);
     const [showForm, setShowForm] = useState(null); // to track the open form type
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState({});
 
     useEffect(() => {
         // Fetch dashboard data on mount
@@ -33,6 +33,16 @@ function Dashboard() {
         setSelectedItem(item);
     };
 
+    const showFloatForm = () => {
+        if (showForm !== "createBucket" ){
+            setShowForm("createBucket");
+            setSelectedItem({});
+        } else {
+            setShowForm(null);
+            setSelectedItem(null);
+        }
+    }
+
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
@@ -50,17 +60,22 @@ function Dashboard() {
                     </div>
                 )}
 
+                {/* Storage */}
+                <h2 className="text-3xl mb-4">Storage Service</h2>
+                <button className="bg-green-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300" onClick={showFloatForm}>{showForm === "createBucket" ? "Close" : "Create" } Bucket</button>
+                {showForm && <FloatingForm type={showForm} item={selectedItem} onClose={() => setShowForm(null)} />}
+
                 {/* Display the tree structure */}
-                {data && <TreeStructure data={data.storage} onButtonClick={handleButtonClick} />}
+                {/* {data && <TreeStructure data={data.storage} onButtonClick={handleButtonClick} />} */}
 
                 {/* Floating form for create bucket/folder/object actions */}
-                {showForm && (
+                {/* {showForm && (
                     <FloatingForm
                         type={showForm}
                         item={selectedItem}
                         onClose={() => setShowForm(null)}
                     />
-                )}
+                )} */}
             </div>
         </div>
 

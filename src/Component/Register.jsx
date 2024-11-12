@@ -67,12 +67,13 @@ function Register() {
 
     try {
       const response = await fetch(`http://${serverIP}:${serverPort}/register`, requestOptions);
+      
       const result = await response.json();
 
       if (response.ok) {
         localStorage.setItem('user_id', result.user_id);
         // Redirect to the verify screen on successful registration
-        navigate('/verify');
+        result.otp_required===true ? navigate('/verify') : navigate('/login');
       } else {
         alertbox('Registration failed: ' + result.message);
       }
