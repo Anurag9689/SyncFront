@@ -3,8 +3,17 @@ import Header from './Header.jsx';
 import { CustomAlert, alertbox } from './CustomAlert.jsx';
 import ParticleBox from './ParticleBox.jsx';
 import { useNavigate } from 'react-router-dom';
+import ClipLoader from "react-spinners/ClipLoader";
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 
 function Verify() {
+  let [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#ffffff");
   const [otp, setOtp] = useState('');
   const navigate = useNavigate();
 
@@ -38,6 +47,7 @@ function Verify() {
       sessionStorage.setItem('token', data.token); // Store the token in session storage
       navigate('/dashboard');
     } else {
+      setLoading(!loading);
       alert('Verification failed. Please try again.');
     }
   };
@@ -68,8 +78,16 @@ function Verify() {
                   required
                 />
               </div>
+              <ClipLoader
+                color={color}
+                loading={loading}
+                cssOverride={override}
+                size={15}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
               <button 
-                type="submit"
+                type="submit" onClick={() => setLoading(!loading)}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Verify

@@ -3,8 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import Header from './Header.jsx';
 import ParticleBox from './ParticleBox.jsx';
 import { CustomAlert, alertbox } from './CustomAlert.jsx';
+import ClipLoader from "react-spinners/ClipLoader";
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
 
 function Login() {
+  let [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#ffffff");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -39,9 +48,11 @@ function Login() {
         // Redirect to the dashboard
         navigate('/dashboard');
       } else {
+        setLoading(!loading);
         alertbox('Login failed : ' + data.message);
       }
     } catch (error) {
+      setLoading(!loading);
       alertbox('Error : ' + 'website error, please contact the developer.')
       console.error('Error : ', error);
     }
@@ -81,7 +92,15 @@ function Login() {
                 required
               />
             </div>
-            <button type="submit" className="my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+            <ClipLoader
+                color={color}
+                loading={loading}
+                cssOverride={override}
+                size={15}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            <button type="submit" onClick={() => setLoading(!loading)} className="my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
               Login
             </button>
           </form>
