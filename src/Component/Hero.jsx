@@ -71,10 +71,6 @@ function Hero() {
               <span className="text-gray-800 font-semibold">Aayush</span>
             </li>
             <li className="flex items-center space-x-4">
-              <img src="" alt="Khushbu's Photo" className="w-10 h-10 rounded-full bg-gray-200 object-cover" />
-              <span className="text-gray-800 font-semibold">Khushbu</span>
-            </li>
-            <li className="flex items-center space-x-4">
               <img src="" alt="Prabhav's Photo" className="w-10 h-10 rounded-full bg-gray-200 object-cover" />
               <span className="text-gray-800 font-semibold">Prabhav</span>
             </li>

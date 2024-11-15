@@ -124,7 +124,7 @@ function TreeStructure({ data, onButtonClick, nestCount = 0 }) {
                                     item.is_bucket ? "bg-neutral-400" : `${item.local_obj_path ? "bg-neutral-100": "bg-neutral-300"}`
                                 } content-center rounded-lg pl-1 py-2`}
                             >
-                                {item.folder}
+                                { item.local_obj_link ? <a href={item.local_obj_link} target="_blank"> {item.folder} </a> : item.folder}
                             </span>
                             <button
                                 className="bg-green-600 text-white font-medium py-1 px-2 rounded-lg hover:bg-green-700 transition duration-300"
