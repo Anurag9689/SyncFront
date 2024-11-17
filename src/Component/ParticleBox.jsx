@@ -31,7 +31,7 @@ const particleBox = () => {
     () => ({
       background: {
         color: {
-          value: "#1E3A8A",//"#0d47a1", 
+          value: "#1E293B", // A solid dark blue-gray color to fit the theme
         },
       },
       fpsLimit: 120,
@@ -48,23 +48,23 @@ const particleBox = () => {
         },
         modes: {
           push: {
-            quantity: 1,
+            quantity: 2, // Slightly increased particles added on click
           },
           repulse: {
-            distance: 200,
+            distance: 180, // Moderate distance for repulsion effect
             duration: 0.4,
           },
         },
       },
       particles: {
         color: {
-          value: "#ffffff",
+          value: "#60A5FA", // A light blue color to match the gradient-inspired theme
         },
         links: {
-          color: "#ffffff",
-          distance: 150,
+          color: "#60A5FA",
+          distance: 140, // Balanced link distance for a compact effect
           enable: true,
-          opacity: 0.5,
+          opacity: 0.6,
           width: 1,
         },
         move: {
@@ -74,27 +74,29 @@ const particleBox = () => {
             default: "bounce",
           },
           random: false,
-          speed: 6,
+          speed: 4, // Moderate speed for fluid motion
           straight: false,
         },
         number: {
           density: {
             enable: true,
+            area: 1000, // Ensures proper density across different screen sizes
           },
-          value: 200,
+          value: 180, // Optimal particle count for balance
         },
         opacity: {
-          value: 0.5,
+          value: 0.5, // Consistent opacity for a soft glow effect
         },
         shape: {
-          type: "circle",
+          type: "circle", // Simple and clean
         },
         size: {
-          value: { min: 1, max: 5 },
+          value: { min: 2, max: 6 }, // Slightly varied sizes for depth
         },
       },
       detectRetina: true,
-    }),
+    }
+    ),
     [],
   );
 
