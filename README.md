@@ -6,7 +6,7 @@ SyncHub is a dew computing project designed to provide fast, local storage and c
 
 1. **Clone the repository**:
     ```bash
-    git clone git@github.com:Anshika09Singh/Synchub.git
+    git clone git@github.com:Anurag9689/SyncFront.git
     cd Synchub/
     git checkout sync
     ```
@@ -25,36 +25,47 @@ SyncHub is a dew computing project designed to provide fast, local storage and c
 
 ```
 .
-├── eslint.config.js          # ESLint configuration for linting
-├── index.html                # Entry HTML file
-├── package.json              # Project dependencies
-├── postcss.config.js         # PostCSS configuration for Tailwind
+├── eslint.config.js                   # Configuration file for ESLint rules and settings
+├── index.html                         # Main entry point for the application's HTML structure
+├── package.json                       # Project metadata, scripts, and dependency definitions
+├── package-lock.json                  # Dependency tree lock file for consistent installations
+├── postcss.config.js                  # Configuration for processing CSS using PostCSS
 ├── public
-│   └── vite.svg              # Public assets
-├── README.md                 # Project documentation
-├── src                       # Source files
-│   ├── App.css               # Main CSS file
-│   ├── App.jsx               # Main React component
-│   ├── assets                # Static assets
-│   │   ├── Alert-Close-Btn.png
-│   │   ├── dr_abhishek_singh.jpeg
-│   │   ├── react.svg
-│   │   └── synchub_workflow.png
-│   ├── Component             # UI Components
-│   │   ├── CustomAlert.jsx       # Alert component
-│   │   ├── Dashboard.jsx         # Dashboard for file management
-│   │   ├── FloatingForm.jsx      # Form for CRUD operations
-│   │   ├── ForgotPassword.jsx    # Password reset component
-│   │   ├── Header.jsx            # Header component
-│   │   ├── Hero.jsx              # Landing page hero section
-│   │   ├── Home.jsx              # Home page
-│   │   ├── Login.jsx             # Login page
-│   │   ├── ParticleBox.jsx       # Particle effect component
-│   │   ├── Register.jsx          # Registration page
-│   │   ├── ServerConfig.jsx      # Server configuration settings
-│   │   └── Verify.jsx            # Email verification component
-│   ├── index.css              # Global styles
-│   └── main.jsx               # Entry point for React
-├── tailwind.config.js         # Tailwind CSS configuration
-└── vite.config.js             # Vite configuration for dev server
+│   └── vite.svg                       # Default logo asset for Vite
+├── README.md                          # Documentation and instructions for the project
+├── src
+│   ├── App.css                        # Styling for the main App component
+│   ├── App.jsx                        # Root React component for the application
+│   ├── assets
+│   │   ├── aayush_pic.png             # Image asset for Aayush
+│   │   ├── aditya_pic.jpeg            # Image asset for Aditya
+│   │   ├── Alert-Close-Btn.png        # Icon for closing alert messages
+│   │   ├── anshika_pic.png            # Image asset for Anshika
+│   │   ├── anurag_pic.jpg             # Image asset for Anurag
+│   │   ├── dr_abhishek_singh.jpeg     # Image asset for Dr. Abhishek Singh
+│   │   ├── khusbu_pic.jpeg            # Image asset for Khusbu
+│   │   ├── Lobster-Regular.ttf        # Font file used in the application
+│   │   ├── prabhav_pic.png            # Image asset for Prabhav
+│   │   ├── react.svg                  # React logo for branding or display
+│   │   └── synchub_workflow.png       # Diagram of the Synchub workflow
+│   ├── Component
+│   │   ├── CustomAlert.jsx            # Component for displaying custom alert messages
+│   │   ├── Dashboard.jsx              # Main dashboard component for user interaction
+│   │   ├── FloatingForm.jsx           # Draggable and floating form component
+│   │   ├── ForgotPassword.jsx         # Component for handling password recovery
+│   │   ├── Header.jsx                 # Header or navigation bar component
+│   │   ├── Hero.jsx                   # Hero section for the landing page
+│   │   ├── Home.jsx                   # Component for the home page
+│   │   ├── Login.jsx                  # Component for user login
+│   │   ├── ParticleBox.jsx            # Component for rendering particle animations
+│   │   ├── Register.jsx               # Component for user registration
+│   │   ├── ServerConfig.jsx           # Component for managing server configurations
+│   │   └── Verify.jsx                 # Component for user account verification
+│   ├── index.css                      # Global CSS styles for the application
+│   └── main.jsx                       # Entry point for initializing the React app
+├── tailwind.config.js                 # Custom configuration for Tailwind CSS
+└── vite.config.js                     # Configuration for the Vite build tool
+
+5 directories, 36 files
+
 ```
