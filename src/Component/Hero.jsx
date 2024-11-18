@@ -3,8 +3,8 @@ import DrAbhishekSingh from "../assets/dr_abhishek_singh.jpeg";
 import SynchubWorkflow from "../assets/synchub_workflow.png";
 
 import AnuragPandey from "../assets/anurag_pic.jpg"
-import AayushSinha from "../assets/aayush_pic.png"
-import AnshikaSingh from "../assets/anshika_pic.png"
+import AayushSinha from "../assets/aayush_pic.jpeg"
+import AnshikaSingh from "../assets/anshika_pic_cropped.jpeg"
 import AdityaChaube from "../assets/aditya_pic.jpeg"
 import Prabhav from "../assets/prabhav_pic.png"
 import KhusbuRai from "../assets/khusbu_pic.jpeg"
