@@ -92,7 +92,7 @@ export function FloatingForm({ type, item, onClose }) {
   };
 
   return (
-    <div className="floating-form bg-white shadow-lg rounded-lg p-6 max-w-md">
+    <div className="floating-form bg-white shadow-lg rounded-lg p-6 max-w-md text-black">
       <h3 className="text-2xl font-semibold text-gray-800 mb-4">
         {type === "createBucket" ? "Create Bucket" : type === "createFolder" ? "Create Folder" : "Upload Object"}
       </h3>
@@ -113,7 +113,7 @@ export function FloatingForm({ type, item, onClose }) {
 
 
       {metadata.map((meta, index) => (
-        <div key={index} className="flex space-x-2 mb-3">
+        <div key={index} className="flex space-x-2 mb-3 text-black">
           <input
             type="text"
             placeholder="Key"

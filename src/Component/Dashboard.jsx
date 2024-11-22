@@ -10,6 +10,8 @@ function Dashboard() {
     const [showForm, setShowForm] = useState(null); // to track the open form type
     const [showBucketForm, setBucketForm] = useState(false);
     const [selectedItem, setSelectedItem] = useState({});
+    const [rstQues, setRstQues] = useState("••");
+    const [rstAns, setRstAns] = useState("••");
 
     const token = sessionStorage.getItem("token");
     useEffect(() => {
@@ -62,6 +64,15 @@ function Dashboard() {
         }
     };
 
+    const hideItem = (type) => (e) => {
+        console.log("e: ", e);
+        if (e.target.innerHTML !== "••"){
+            e.target.innerHTML = "••";
+        } else {
+            e.taget.innerHTML = type==="rst_ques"? data.reset_question: data.reset_answer;
+        }
+    }
+
     return (
         <div className="w-full min-h-screen overflow-hidden flex flex-col">
             <Header />
@@ -90,11 +101,11 @@ function Dashboard() {
                                 </p>
                                 <p className="flex items-center">
                                     <span className="font-medium text-gray-700 w-36">Reset Question:</span>
-                                    <span className="text-gray-800">{data.reset_question}</span>
+                                    <span className="text-gray-800 select-none" onClick={() => setRstQues(() => rstQues === "••"? data.reset_question:"••")}>{rstQues}</span>
                                 </p>
                                 <p className="flex items-center">
                                     <span className="font-medium text-gray-700 w-36">Reset Answer:</span>
-                                    <span className="text-gray-800">{data.reset_answer}</span>
+                                    <span className="text-gray-800 select-none" onClick={() => setRstAns(() => rstAns === "••"? data.reset_answer:"••")}>{rstAns}</span>
                                 </p>
                             </div>
                         </div>
